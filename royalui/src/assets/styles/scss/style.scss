@@ -1,0 +1,23 @@
+/* === Import Bootstrap functions and variables === */
+@import '../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../node_modules/bootstrap/scss/variables';
+
+/*-------------------------------------------------------------------*/
+/* === Import template variables === */
+@import 'base/all';
+
+/*-------------------------------------------------------------------*/
+/* === SCSS Compass Functions === */
+@import '../../../../node_modules/compass-mixins/lib/compass';
+@import '../../../../node_modules/compass-mixins/lib/animate';
+
+/*-------------------------------------------------------------------*/
+/* === Boostrap Main SCSS === */
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+
+/*-------------------------------------------------------------------*/
+@import 'base/all';
+@import 'mixins/all';
+@import 'blocks/all';
+@import 'components/all';
+@import 'landing-screens/all';
