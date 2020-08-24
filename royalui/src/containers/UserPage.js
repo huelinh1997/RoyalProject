@@ -4,28 +4,14 @@ import { connect } from 'react-redux';
 import { userAction } from '../stores/actions';
 import ReactPaginate from 'react-paginate';
 import { getUserService } from '../services/userService';
+import Post from '../components/Post';
 
-function UserPage({}) {
+function UserPage({ getListUser, listUser }) {
 	const [record, setRecord] = useState('5');
 	const [activePage, setActivePage] = useState(1);
-	const [listUser, setListUser] = useState([]);
-	const [data, setData] = useState([]);
 	useEffect(() => {
 		getListUser();
 	}, []);
-
-	useEffect(() => {
-		const newData = getData(listUser);
-		setData(newData);
-	}, [record, activePage]);
-
-	const getListUser = async () => {
-		const listUser = await getUserService();
-		if (listUser && listUser !== undefined && listUser.status === 200) {
-			setListUser(listUser.data);
-			setData(getData(listUser.data));
-		}
-	};
 
 	const getData = (arr) => {
 		if (arr.length > 0) {
@@ -36,10 +22,13 @@ function UserPage({}) {
 		} else return [];
 	};
 
+	const data = getData(listUser);
+
 	const handleChangeSelect = (e) => {
-		setRecord(e.target.value);
 		setActivePage(1);
+		setRecord(e.target.value);
 	};
+	console.log('activePage:', activePage);
 
 	const size = Math.ceil(listUser.length / record);
 
@@ -59,32 +48,7 @@ function UserPage({}) {
 								<option value='5'>5</option>
 								<option value='10'>10</option>
 							</select>
-							<div className='table-responsive'>
-								<table className='table table-striped'>
-									<thead>
-										<tr>
-											<th>User</th>
-											<th>First name</th>
-											<th>Email</th>
-											<th>Phone</th>
-										</tr>
-									</thead>
-									<tbody>
-										{data.map((item, index) => {
-											return (
-												<tr key={index}>
-													<td className='py-1'>
-														<img src={item.avatar} alt='image' />
-													</td>
-													<td>{item.name}</td>
-													<td>{item.email}</td>
-													<td>{item.phone}</td>
-												</tr>
-											);
-										})}
-									</tbody>
-								</table>
-							</div>
+							<Post data={data} />
 							<ReactPaginate
 								pageCount={size}
 								previousLabel={'<<'}
@@ -100,6 +64,7 @@ function UserPage({}) {
 								activeLinkClassName={'active'}
 								breakLinkClassName={'page-item'}
 								containerClassName={'pagination'}
+								forcePage={activePage - 1}
 								onPageChange={(data) => {
 									setActivePage(data.selected + 1);
 								}}
@@ -118,7 +83,7 @@ UserPage.defaultProps = {};
 
 const mapStateToProps = (state) => {
 	return {
-		list: state.userReducer.listUser,
+		listUser: state.userReducer.listUser,
 	};
 };
 
