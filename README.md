@@ -14,6 +14,6 @@
   + Type git clone, and then paste the URL: \$ git clone https://github.com/huelinh1997/RoyalProject.git
   + Press Enter. Your local clone will be created.</li>
 * Run project:
-  1- cd project: $ cd royalui
-  2- Install node mudule: $ npm install
-  3- Run react app: $ npm start 
+  + cd project: $ cd royalui
+  + Install node mudule: $ npm install
+  + Run react app: $ npm start 
