@@ -16,4 +16,4 @@
 * Run project:
   1- cd project: $ cd royalui
   2- Install node mudule: $ npm install
-  3- Run react app: $ npm start
+  3- Run react app: $ npm start 
