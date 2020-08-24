@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function FormLogin({ onLogIn }) {
-	const [username, setUsername] = useState('admin');
-	const [password, setPassword] = useState('admin');
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
 	const [remember, setRemember] = useState(false);
 	const handleSubmit = (e) => {
 		e.preventDefault();
