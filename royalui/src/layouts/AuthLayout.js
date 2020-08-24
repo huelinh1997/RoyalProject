@@ -9,6 +9,7 @@ function AuthLayout({ match: { url } }) {
 		<Switch>
 			<Route path={`${url}/login`} exact component={Login} />
 			<Route path={`${url}/register`} exact component={Register} />
+			<Redirect to='/errors' />
 		</Switch>
 	);
 }

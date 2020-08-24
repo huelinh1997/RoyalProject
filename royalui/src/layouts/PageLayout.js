@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from '../components/Header';
 import VerticalNav from '../components/navbar/VerticalNav';
-import { Route, Switch } from 'react-router-dom';
 import routes from '../routes/PageRoute';
 
 function PageLayout() {
@@ -20,7 +19,12 @@ function PageLayout() {
 				);
 			});
 		}
-		return <Switch> {result} </Switch>;
+		return (
+			<Switch>
+				{result}
+				<Redirect to='/errors' />{' '}
+			</Switch>
+		);
 	};
 	return (
 		<div className='container-scroller'>
