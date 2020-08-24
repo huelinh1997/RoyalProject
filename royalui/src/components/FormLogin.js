@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import { useForm } from 'react-hook-form';
+import { Error, Success } from '../helpers/notify/index';
 function FormLogin({ onLogIn }) {
-	const [username, setUsername] = useState('');
+	const [username, setUsername] = useState(''); //
 	const [password, setPassword] = useState('');
 	const [remember, setRemember] = useState(false);
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const { register, errors, handleSubmit } = useForm();
+
+	const handleSubmitForm = (e) => {
 		onLogIn({ username, password });
 	};
 
 	return (
-		<form className='pt-3' onSubmit={handleSubmit}>
+		<form className='pt-3' onSubmit={handleSubmit(handleSubmitForm)}>
 			<div className='form-group'>
 				<input
 					type='text'
@@ -23,8 +25,12 @@ function FormLogin({ onLogIn }) {
 					onChange={(e) => {
 						setUsername(e.target.value);
 					}}
+					ref={register({
+						required: true,
+					})}
 					placeholder='Username'
 				/>
+				{errors.username && <span className='required'>Field required</span>}
 			</div>
 			<div className='form-group'>
 				<input
@@ -34,8 +40,12 @@ function FormLogin({ onLogIn }) {
 					name='password'
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
+					ref={register({
+						required: true,
+					})}
 					placeholder='Password'
 				/>
+				{errors.password && <span className='required'>Field required</span>}
 			</div>
 			<div className='mt-3'>
 				<button

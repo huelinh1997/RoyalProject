@@ -2,32 +2,21 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Error, Success } from '../helpers/notify/index';
+import { useForm } from 'react-hook-form';
 
 function FormRegister({ onRegister }) {
 	const [formState, setFormState] = useState({
-		username: '',
-		email: '',
-		country: '',
-		password: '',
 		agree: false,
+		country: '',
 	});
+	const { register, errors, handleSubmit } = useForm();
 
 	const [status, setStatus] = useState({
-		username: false,
-		email: false,
 		country: false,
-		password: false,
 	});
 
 	const handleSubmitForm = (e) => {
-		e.preventDefault();
-		handleError();
-		if (
-			status.username === false &&
-			status.email === false &&
-			status.country === false &&
-			status.password === false
-		) {
+		if (status.country === false) {
 			if (formState.agree === false) {
 				Error('You must agree to the terms and conditions!');
 			} else {
@@ -46,32 +35,14 @@ function FormRegister({ onRegister }) {
 	};
 
 	const handleError = () => {
-		if (formState.username === '') {
-			setStatus((status) => ({ ...status, username: true }));
-		} else {
-			setStatus((status) => ({ ...status, username: false }));
-		}
-
-		if (formState.email === '') {
-			setStatus((status) => ({ ...status, email: true }));
-		} else {
-			setStatus((status) => ({ ...status, email: false }));
-		}
-
 		if (formState.country === '') {
 			setStatus((status) => ({ ...status, country: true }));
 		} else {
 			setStatus((status) => ({ ...status, country: false }));
 		}
-
-		if (formState.password === '') {
-			setStatus((status) => ({ ...status, password: true }));
-		} else {
-			setStatus((status) => ({ ...status, password: false }));
-		}
 	};
 	return (
-		<form className='pt-3' onSubmit={handleSubmitForm}>
+		<form className='pt-3' onSubmit={handleSubmit(handleSubmitForm)}>
 			<div className='form-group'>
 				<input
 					type='text'
@@ -79,14 +50,15 @@ function FormRegister({ onRegister }) {
 					className={`form-control form-control-lg`}
 					id='username'
 					name='username'
+					ref={register({
+						required: true,
+					})}
 					value={formState.username !== undefined ? formState.username : ''}
 					onChange={handleChangeInput}
 					placeholder='Username'
 				/>
 
-				{formState.username === '' && status.username && (
-					<span className='required'>Field required</span>
-				)}
+				{errors.username && <span className='required'>Field required</span>}
 			</div>
 			<div className='form-group'>
 				<input
@@ -96,11 +68,12 @@ function FormRegister({ onRegister }) {
 					name='email'
 					value={formState.email !== undefined ? formState.email : ''}
 					onChange={handleChangeInput}
+					ref={register({
+						required: true,
+					})}
 					placeholder='Email'
 				/>
-				{formState.email === '' && status.email && (
-					<span className='required'>Field required</span>
-				)}
+				{errors.email && <span className='required'>Field required</span>}
 			</div>
 			<div className='form-group'>
 				<select
@@ -130,11 +103,12 @@ function FormRegister({ onRegister }) {
 					name='password'
 					value={formState.password !== undefined ? formState.password : ''}
 					onChange={handleChangeInput}
+					ref={register({
+						required: true,
+					})}
 					placeholder='Password'
 				/>
-				{formState.password === '' && status.password && (
-					<span className='required'>Field required</span>
-				)}
+				{errors.password && <span className='required'>Field required</span>}
 			</div>
 			<div className='mb-4'>
 				<div className='form-check'>
